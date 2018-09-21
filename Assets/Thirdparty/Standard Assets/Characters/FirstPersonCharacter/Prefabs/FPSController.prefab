@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 11400000}
   - component: {fileID: 5400000}
   - component: {fileID: 8200000}
+  - component: {fileID: 114904032307524210}
   m_Layer: 0
   m_Name: FPSController
   m_TagString: Untagged
