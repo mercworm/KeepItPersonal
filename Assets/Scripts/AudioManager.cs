@@ -4,40 +4,47 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour {
 
-    private AudioSource source;
+    public AudioSource musicSource, effectSource;
 
     public AudioClip busMusic, memoryMusic, breathing, boom, heartbeat;
 
     private void OnEnable()
     {
-        EventManager.StartListening("OnMemoryGo", Memory);
-        EventManager.StartListening("OnSecondDown", EverySecond);
+        //EventManager.StartListening("OnMemoryGo", Memory);
+        //EventManager.StartListening("OnMemoryStop", MusicFade);
+        //EventManager.StartListening("TextDone", Memory);
+        //EventManager.StartListening("OnSecondDown", EverySecond);
     }
 
     private void OnDisable()
     {
-        EventManager.StopListening("OnMemoryGo", Memory);
+        EventManager.StopListening("OnMemoryGo", MusicFade);
+        EventManager.StopListening("OnMemoryStop", MusicFade);
         EventManager.StopListening("OnSecondDown", EverySecond);
     }
 
-    // Use this for initialization
-    void Start () {
-        source = GetComponent<AudioSource>();
-	}
+    public void MusicFade ()
+    {
+        StartCoroutine(FadeOut(musicSource, 0.5f));
+    }
+
+    public void Bus ()
+    {
+
+    }
 
     public void Memory ()
     {
-        StartCoroutine(FadeOut(source, 0.5f));
-        source.clip = memoryMusic;
-        source.Play();
+        musicSource.clip = memoryMusic;
+        musicSource.Play();
 
-        source.PlayOneShot(breathing);
-        source.PlayOneShot(heartbeat);
+        effectSource.PlayOneShot(breathing);
+        effectSource.PlayOneShot(heartbeat);
     }
 
     public void EverySecond ()
     {
-        source.PlayOneShot(boom);
+        effectSource.PlayOneShot(boom);
     }
 
     public IEnumerator FadeOut(AudioSource audioSource, float FadeTime)

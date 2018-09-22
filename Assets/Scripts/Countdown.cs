@@ -1,11 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Countdown : MonoBehaviour {
 
     public float countdownTime = 10f;
     public bool counting = false;
+
+    public Sprite[] numberSprites;
+    public int currentSprite;
+    public Image countdownImage;
 
     private void OnEnable()
     {
@@ -31,7 +36,7 @@ public class Countdown : MonoBehaviour {
             if (countdownTime >= 0)
             {
                 countdownTime -= Time.deltaTime;
-                EventManager.TriggerEvent("OneSecondDown");
+                SwitchSprite();
             }
             //If we've reached 0.
             if (countdownTime < 0)
@@ -43,4 +48,17 @@ public class Countdown : MonoBehaviour {
             }
         }
 	}
+
+    public void SwitchSprite ()
+    {
+        currentSprite++;
+        countdownImage.sprite = numberSprites[currentSprite];
+
+        EventManager.TriggerEvent("OneSecondDown");
+    }
+
+    public void Stop ()
+    {
+        EventManager.TriggerEvent("OnMemoryStop");
+    }
 }

@@ -28,6 +28,10 @@ public class PlayerInteractions : MonoBehaviour {
             {
                 interactionsPanel.SetActive(true);
             }
+            else 
+            {
+                interactionsPanel.SetActive(false);
+            }
         }
 
         //If the player clicks...
@@ -47,6 +51,7 @@ public class PlayerInteractions : MonoBehaviour {
                 //Try to find the pickup script
                 if (rayHits[i].collider.gameObject.tag == "Friend")
                 {
+                    interactionsPanel.SetActive(false);
                     EventManager.TriggerEvent("OnMemoryGo");
                 }
             }

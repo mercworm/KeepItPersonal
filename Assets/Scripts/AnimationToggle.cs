@@ -1,16 +1,45 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AnimationToggle : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private Animator anim;
+
+    private void Start()
+    {
+        anim = GetComponent<Animator>();
+    }
+
+    private void OnEnable()
+    {
+        EventManager.StartListening("OnMemoryText", StartMemory);
+        EventManager.StartListening("OnMemoryText2", StopMemory);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.StopListening("OnMemoryText", StartMemory);
+        EventManager.StopListening("OnMemoryText2", StopMemory);
+    }
+
+    //Shows the text before the memory plays.
+    public void StartMemory ()
+    {
+        anim.SetTrigger("Text1Go");
+    }
+
+    //Shows the text when the memory is finished.
+    public void StopMemory ()
+    {
+        anim.SetTrigger("Text2Go");
+    }
+
+    public void TextDone ()
+    {
+        EventManager.TriggerEvent("TextDone");
+        Debug.Log("Event Triggered!");
+        //Here the movement animation should go.
+    }
 }
