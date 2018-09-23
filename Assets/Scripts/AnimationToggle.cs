@@ -39,7 +39,5 @@ public class AnimationToggle : MonoBehaviour {
     public void TextDone ()
     {
         EventManager.TriggerEvent("TextDone");
-        Debug.Log("Event Triggered!");
-        //Here the movement animation should go.
     }
 }

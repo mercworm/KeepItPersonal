@@ -20,50 +20,62 @@ public class MemorySwitch : MonoBehaviour {
     private void OnEnable()
     {
         EventManager.StartListening("TextDone", FadeOut);
-        EventManager.StartListening("OnMemoryGo", SwitchToMemory);
-        EventManager.StartListening("OnMemoryStop", SwitchToBus);
+        EventManager.StartListening("OnMemoryGo", FadeIn);
+        EventManager.StartListening("OnMemoryStop", FadeIn);
     }
 
     private void OnDisable()
     {
         EventManager.StopListening("TextDone", FadeOut);
-        EventManager.StopListening("OnMemoryGo", SwitchToMemory);
-        EventManager.StopListening("OnMemoryStop", SwitchToBus);
+        EventManager.StopListening("OnMemoryGo", FadeIn);
+        EventManager.StopListening("OnMemoryStop", FadeIn);
     }
 
-    public void SwitchToMemory ()
+    public void FadeIn ()
     {
         StartCoroutine(WaitForSwitch());
     }
 
     public void SwitchToBus ()
     {
-        StartCoroutine(WaitForSwitch());
+        busScene.SetActive(true);
+        memoryScene.SetActive(false);
+    }
+
+    public void SwitchToMemory ()
+    {
+        busScene.SetActive(false);
+        memoryScene.SetActive(true);
     }
 
     public IEnumerator WaitForSwitch()
     {
         fadeAnim.SetTrigger("FadeIn");
-
         yield return new WaitForSeconds(waitTime);
 
         if (busScene.activeInHierarchy)
         {
             EventManager.TriggerEvent("OnMemoryText");
-            busScene.SetActive(false);
-            memoryScene.SetActive(true);
         }
 
         else if (memoryScene.activeInHierarchy)
         {
             EventManager.TriggerEvent("OnMemoryText2");
-            busScene.SetActive(true);
-            memoryScene.SetActive(false);
         }
     }
 
     public void FadeOut ()
     {
+        if (busScene.activeInHierarchy)
+        {
+            SwitchToMemory();
+        }
+        else if (memoryScene.activeInHierarchy)
+        {
+            SwitchToBus();
+            EventManager.TriggerEvent("OnCountdownStart");
+        }
+
         fadeAnim.SetTrigger("FadeOut");
     }
 }

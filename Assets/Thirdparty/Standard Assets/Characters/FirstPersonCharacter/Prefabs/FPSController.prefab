@@ -396,3 +396,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   interactionsPanel: {fileID: 0}
+  interact: 1

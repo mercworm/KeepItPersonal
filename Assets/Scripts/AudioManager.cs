@@ -6,40 +6,50 @@ public class AudioManager : MonoBehaviour {
 
     public AudioSource musicSource, effectSource;
 
-    public AudioClip busMusic, memoryMusic, breathing, boom, heartbeat;
+    public AudioClip busMusic, memoryMusic, breathing, boom, heartbeat, busSound;
 
     private void OnEnable()
     {
-        //EventManager.StartListening("OnMemoryGo", Memory);
-        //EventManager.StartListening("OnMemoryStop", MusicFade);
-        //EventManager.StartListening("TextDone", Memory);
-        //EventManager.StartListening("OnSecondDown", EverySecond);
+        EventManager.StartListening("OnMemoryGo", MusicFade);
+        EventManager.StartListening("OnMemoryStop", MusicFade);
+        EventManager.StartListening("TextDone", SwitchMusic);
+        EventManager.StartListening("OneSecondDown", EverySecond);
     }
 
     private void OnDisable()
     {
         EventManager.StopListening("OnMemoryGo", MusicFade);
         EventManager.StopListening("OnMemoryStop", MusicFade);
-        EventManager.StopListening("OnSecondDown", EverySecond);
+        EventManager.StartListening("TextDone", SwitchMusic);
+        EventManager.StopListening("OneSecondDown", EverySecond);
     }
 
     public void MusicFade ()
     {
         StartCoroutine(FadeOut(musicSource, 0.5f));
+        StartCoroutine(FadeOut(effectSource, 0.5f));
     }
 
-    public void Bus ()
+    public void SwitchMusic ()
     {
+        if (musicSource.clip == busMusic)
+        {
+            musicSource.clip = memoryMusic;
+            musicSource.Play();
 
-    }
+            //effectSource.clip = breathing;
+            //effectSource.Play();
+            effectSource.PlayOneShot(heartbeat);
+        }
+        else if(musicSource.clip == memoryMusic)
+        {
+            musicSource.clip = busMusic; //This needs to be whatever music I decide that I want later.
+            musicSource.Play();
 
-    public void Memory ()
-    {
-        musicSource.clip = memoryMusic;
-        musicSource.Play();
-
-        effectSource.PlayOneShot(breathing);
-        effectSource.PlayOneShot(heartbeat);
+            effectSource.clip = busSound; 
+            effectSource.Play();
+            effectSource.PlayOneShot(heartbeat);
+        }
     }
 
     public void EverySecond ()

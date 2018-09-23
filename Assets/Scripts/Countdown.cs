@@ -12,6 +12,8 @@ public class Countdown : MonoBehaviour {
     public int currentSprite;
     public Image countdownImage;
 
+    public GameObject panelHolder;
+
     private void OnEnable()
     {
         EventManager.StartListening("OnCountdownStart", StartCount);
@@ -24,6 +26,7 @@ public class Countdown : MonoBehaviour {
 
     public void StartCount ()
     {
+        panelHolder.SetActive(true);
         counting = true;
     }
 
@@ -32,22 +35,25 @@ public class Countdown : MonoBehaviour {
         //If we're currently counting down, keep doing that!
 		if (counting)
         {
-            //If there's still something to remove...
-            if (countdownTime >= 0)
-            {
-                countdownTime -= Time.deltaTime;
-                SwitchSprite();
-            }
-            //If we've reached 0.
-            if (countdownTime < 0)
-            {
-                //Stop counting and tell everyone else that it is over. 
-                counting = false;
-                countdownTime = 10f;
-                EventManager.TriggerEvent("OnMemoryStop");
-            }
+            InvokeRepeating("TimeDown", 0.0f, 1.0f);
+            counting = false;
         }
-	}
+
+        //If we've reached 0.
+        if (countdownTime < 0)
+        {
+            //Stop counting and tell everyone else that it is over. 
+            countdownTime = 10f;
+            CancelInvoke();
+            EventManager.TriggerEvent("EndGame");
+        }
+    }
+
+    public void TimeDown ()
+    {
+        countdownTime--;
+        SwitchSprite();
+    }
 
     public void SwitchSprite ()
     {
@@ -59,6 +65,7 @@ public class Countdown : MonoBehaviour {
 
     public void Stop ()
     {
+        currentSprite = 0;
         EventManager.TriggerEvent("OnMemoryStop");
     }
 }

@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour {
 
     private bool pauseMenu;
 
+    public GameObject fadeScreen;
+
 	private void Update ()
     {
 		if (Input.GetKeyDown(quitKey))
@@ -36,4 +38,21 @@ public class GameManager : MonoBehaviour {
             }
         }
 	}
+
+    private void OnEnable()
+    {
+        EventManager.StartListening("EndGame", BackToMenu);
+    }
+
+    public void BackToMenu ()
+    {
+        fadeScreen.SetActive(true);
+        StartCoroutine(Fade());
+    }
+
+    public IEnumerator Fade()
+    {
+        yield return new WaitForSeconds(2);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+    }
 }
