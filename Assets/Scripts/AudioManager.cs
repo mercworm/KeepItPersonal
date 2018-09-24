@@ -26,8 +26,8 @@ public class AudioManager : MonoBehaviour {
 
     public void MusicFade ()
     {
-        StartCoroutine(FadeOut(musicSource, 0.5f));
-        StartCoroutine(FadeOut(effectSource, 0.5f));
+        StartCoroutine(FadeOut(musicSource, 1f));
+        StartCoroutine(FadeOut(effectSource, 1f));
     }
 
     public void SwitchMusic ()

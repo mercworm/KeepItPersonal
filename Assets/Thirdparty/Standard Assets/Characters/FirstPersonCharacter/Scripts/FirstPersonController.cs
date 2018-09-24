@@ -42,6 +42,22 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool m_Jumping;
         private AudioSource m_AudioSource;
 
+        private void OnEnable()
+        {
+            EventManager.StartListening("WalkingToggle", Toggle);
+        }
+
+        private void OnDisable()
+        {
+            EventManager.StopListening("WalkingToggle", Toggle);
+        }
+
+        public void Toggle ()
+        {
+            m_WalkSpeed = 3;
+            m_RunSpeed = 3;
+        }
+
         // Use this for initialization
         private void Start()
         {

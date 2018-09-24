@@ -74,6 +74,7 @@ public class MemorySwitch : MonoBehaviour {
         {
             SwitchToBus();
             EventManager.TriggerEvent("OnCountdownStart");
+            EventManager.TriggerEvent("WalkingToggle");
         }
 
         fadeAnim.SetTrigger("FadeOut");
