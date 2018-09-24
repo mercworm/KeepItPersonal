@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour {
 
-    public AudioSource musicSource, effectSource;
+    public AudioSource musicSource, effectSource, playerSource;
 
     public AudioClip busMusic, memoryMusic, breathing, boom, heartbeat, busSound;
 
@@ -54,7 +54,16 @@ public class AudioManager : MonoBehaviour {
 
     public void EverySecond ()
     {
-        effectSource.PlayOneShot(boom);
+        if(musicSource.clip == busMusic)
+        {
+            effectSource.PlayOneShot(boom);
+        }
+        else
+        {
+            playerSource.PlayOneShot(boom);
+        }
+
+        
     }
 
     public IEnumerator FadeOut(AudioSource audioSource, float FadeTime)
