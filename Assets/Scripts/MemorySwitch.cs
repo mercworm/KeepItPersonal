@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class MemorySwitch : MonoBehaviour {
 
-    public GameObject busScene;
-    public GameObject memoryScene;
-
     public GameObject fadeImage;
     private Animator fadeAnim;
 
     public GameObject flashImage;
 
     public float waitTime;
+    public string currentScene;
 
     private void Start()
     {
         fadeAnim = fadeImage.GetComponent<Animator>();
+        currentScene = "GameScene";
     }
 
     private void OnEnable()
@@ -40,14 +39,14 @@ public class MemorySwitch : MonoBehaviour {
 
     public void SwitchToBus ()
     {
-        busScene.SetActive(true);
-        memoryScene.SetActive(false);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+        currentScene = "GameScene";
     }
 
     public void SwitchToMemory ()
     {
-        busScene.SetActive(false);
-        memoryScene.SetActive(true);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Memory");
+        currentScene = "Memory";
     }
 
     public IEnumerator WaitForSwitch()
@@ -55,12 +54,12 @@ public class MemorySwitch : MonoBehaviour {
         fadeAnim.SetTrigger("FadeIn");
         yield return new WaitForSeconds(waitTime);
 
-        if (busScene.activeInHierarchy)
+        if (currentScene == "GameScene")
         {
             EventManager.TriggerEvent("OnMemoryText");
         }
 
-        else if (memoryScene.activeInHierarchy)
+        else if (currentScene == "Memory")
         {
             EventManager.TriggerEvent("OnMemoryText2");
         }
@@ -68,11 +67,11 @@ public class MemorySwitch : MonoBehaviour {
 
     public void FadeOut ()
     {
-        if (busScene.activeInHierarchy)
+        if (currentScene == "GameScene")
         {
             SwitchToMemory();
         }
-        else if (memoryScene.activeInHierarchy)
+        else if (currentScene == "Memory")
         {
             SwitchToBus();
             EventManager.TriggerEvent("OnCountdownStart");

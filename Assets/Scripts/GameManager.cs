@@ -4,6 +4,22 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+    public static GameManager controller;
+
+    private void Awake()
+    {
+        if (controller == null)
+        {
+            DontDestroyOnLoad(gameObject);
+            controller = this;
+            EventManager.StartListening("EndGame", BackToMenu);
+        }
+        else if (controller != this)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public GameObject pauseMenuPanel;
     public KeyCode quitKey, continueKey;
 
@@ -38,11 +54,6 @@ public class GameManager : MonoBehaviour {
             }
         }
 	}
-
-    private void OnEnable()
-    {
-        EventManager.StartListening("EndGame", BackToMenu);
-    }
 
     public void BackToMenu ()
     {
