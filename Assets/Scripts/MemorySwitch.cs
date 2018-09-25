@@ -10,6 +10,8 @@ public class MemorySwitch : MonoBehaviour {
     public GameObject fadeImage;
     private Animator fadeAnim;
 
+    public GameObject flashImage;
+
     public float waitTime;
 
     private void Start()
@@ -75,6 +77,7 @@ public class MemorySwitch : MonoBehaviour {
             SwitchToBus();
             EventManager.TriggerEvent("OnCountdownStart");
             EventManager.TriggerEvent("WalkingToggle");
+            flashImage.SetActive(true);
         }
 
         fadeAnim.SetTrigger("FadeOut");

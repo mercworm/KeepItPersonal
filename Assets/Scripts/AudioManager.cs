@@ -56,11 +56,11 @@ public class AudioManager : MonoBehaviour {
     {
         if(musicSource.clip == busMusic)
         {
-            effectSource.PlayOneShot(boom);
+            playerSource.PlayOneShot(boom);
         }
         else
         {
-            playerSource.PlayOneShot(boom);
+            effectSource.PlayOneShot(boom);
         }
 
         
