@@ -27,14 +27,18 @@ public class PlayerInteractions : MonoBehaviour {
             if (Physics.Raycast(this.transform.position, this.transform.forward, out hit, distanceToSee))
             {
                 Debug.Log("I touched " + hit.collider.gameObject.name);
-                if (hit.collider.gameObject.tag == "Friend")
+                if (interactionsPanel != null)
                 {
-                    interactionsPanel.SetActive(true);
+                    if (hit.collider.gameObject.tag == "Friend")
+                    {
+                        interactionsPanel.SetActive(true);
+                    }
+                    else
+                    {
+                        interactionsPanel.SetActive(false);
+                    }
                 }
-                else
-                {
-                    interactionsPanel.SetActive(false);
-                }
+                else Debug.Log("The interactions panel is missing!");
             }
 
             //If the player clicks...
