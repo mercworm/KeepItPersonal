@@ -15,6 +15,11 @@ public class PlayerInteractions : MonoBehaviour {
 
     public bool interact;
 
+    private void Start()
+    {
+        //interactionsPanel = GameObject.FindGameObjectWithTag("InteractionsPanel");
+    }
+
     // Update is called once per frame
     void Update()
     {

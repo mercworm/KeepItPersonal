@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Friend
   - Destroy
+  - InteractionsPanel
   layers:
   - Default
   - TransparentFX
