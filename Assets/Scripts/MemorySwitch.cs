@@ -34,6 +34,7 @@ public class MemorySwitch : MonoBehaviour {
 
     public void FadeIn ()
     {
+        Debug.Log("Fade In");
         StartCoroutine(WaitForSwitch());
     }
 
@@ -45,12 +46,14 @@ public class MemorySwitch : MonoBehaviour {
 
     public void SwitchToMemory ()
     {
+        Debug.Log("Switch To Memory");
         UnityEngine.SceneManagement.SceneManager.LoadScene("Memory");
         currentScene = "Memory";
     }
 
     public IEnumerator WaitForSwitch()
     {
+        Debug.Log("Wait for switch: " + currentScene + " " + waitTime);
         fadeAnim.SetTrigger("FadeIn");
         yield return new WaitForSeconds(waitTime);
 
@@ -67,6 +70,7 @@ public class MemorySwitch : MonoBehaviour {
 
     public void FadeOut ()
     {
+        Debug.Log("FadeOut " + currentScene);
         if (currentScene == "GameScene")
         {
             SwitchToMemory();
@@ -74,12 +78,19 @@ public class MemorySwitch : MonoBehaviour {
         else if (currentScene == "Memory")
         {
             SwitchToBus();
-            EventManager.TriggerEvent("OnCountdownStart");
-            EventManager.TriggerEvent("WalkingToggle");
-            flashImage.SetActive(true);
+            StartCoroutine(MemorySwitchDelay());
         }
 
         fadeAnim.SetTrigger("FadeOut");
+    }
+
+    IEnumerator MemorySwitchDelay()
+    {
+        yield return null;
+        Debug.Log("Memory Switch Delay");
+        EventManager.TriggerEvent("OnCountdownStart");
+        EventManager.TriggerEvent("WalkingToggle");
+        flashImage.SetActive(true);
     }
 }
 

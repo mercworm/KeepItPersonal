@@ -4,7 +4,24 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour {
 
-    public AudioSource musicSource, effectSource, playerSource;
+    public AudioSource musicSource, effectSource, _playerSource;
+
+    public AudioSource PlayerSource
+    {
+        get
+        {
+            if (_playerSource == null)
+            { 
+                var p = GameObject.FindGameObjectWithTag("Player");
+                if(p != null)
+                {
+                    _playerSource = p.GetComponent<AudioSource>();
+                }
+            }
+
+            return _playerSource;
+        }
+    }
 
     public AudioClip busMusic, memoryMusic, breathing, boom, heartbeat, busSound;
 
@@ -56,7 +73,7 @@ public class AudioManager : MonoBehaviour {
     {
         if(musicSource.clip == busMusic)
         {
-            playerSource.PlayOneShot(boom);
+            PlayerSource.PlayOneShot(boom);
         }
         else
         {

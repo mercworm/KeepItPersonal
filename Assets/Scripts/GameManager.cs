@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour {
         {
             if (pauseMenu)
             {
+                Time.timeScale = 1;
                 UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
             }
             else
@@ -52,6 +53,11 @@ public class GameManager : MonoBehaviour {
                 Time.timeScale = 1;
                 
             }
+        }
+
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "MainMenu")
+        {
+            Destroy(gameObject);
         }
 	}
 

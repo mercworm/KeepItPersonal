@@ -15,14 +15,16 @@ public class PlayerInteractions : MonoBehaviour {
 
     public bool interact;
 
-    private void Start()
-    {
-        //interactionsPanel = GameObject.FindGameObjectWithTag("InteractionsPanel");
-    }
+    public GameObject state2;
 
     // Update is called once per frame
     void Update()
     {
+        if (state2.activeInHierarchy)
+        {
+            interact = false;
+        }
+
         if (interact)
         {
             //Draw a ray so we can see it in the scene.
@@ -31,7 +33,7 @@ public class PlayerInteractions : MonoBehaviour {
             //Get an actual ray and print out everything we touch in the console.
             if (Physics.Raycast(this.transform.position, this.transform.forward, out hit, distanceToSee))
             {
-                Debug.Log("I touched " + hit.collider.gameObject.name);
+                //Debug.Log("I touched " + hit.collider.gameObject.name);
                 if (interactionsPanel != null)
                 {
                     if (hit.collider.gameObject.tag == "Friend")
@@ -63,10 +65,11 @@ public class PlayerInteractions : MonoBehaviour {
                     //Try to find the pickup script
                     if (rayHits[i].collider.gameObject.tag == "Friend")
                     {
-
+                        Debug.Log("On Memory Go");
                         interact = false;
                         interactionsPanel.SetActive(false);
                         EventManager.TriggerEvent("OnMemoryGo");
+                        return;
                     }
                 }
             }

@@ -26,8 +26,11 @@ public class Countdown : MonoBehaviour {
 
     public void StartCount ()
     {
-        panelHolder.SetActive(true);
-        counting = true;
+        if (panelHolder != null)
+        {
+            panelHolder.SetActive(true);
+            counting = true;
+        }
     }
 
     private void Update ()

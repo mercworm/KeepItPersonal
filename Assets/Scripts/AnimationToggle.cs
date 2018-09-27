@@ -38,6 +38,7 @@ public class AnimationToggle : MonoBehaviour {
 
     public void TextDone ()
     {
+        Debug.Log("TextDone");
         EventManager.TriggerEvent("TextDone");
     }
 }
